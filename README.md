@@ -1,31 +1,28 @@
 # Cvm
 
-Cvm description here.
-
-## Installation
-
-### Unix users (Linux, BSDs and MacOSX)
-
-Unix users may download and install latest *cvm* release with command:
-
-```bash
-sh -c "$(curl https://sweetohm.net/dist/cvm/install)"
-```
-
-If *curl* is not installed on you system, you might run:
-
-```bash
-sh -c "$(wget -O - https://sweetohm.net/dist/cvm/install)"
-```
-
-**Note:** Some directories are protected, even as *root*, on **MacOSX** (since *El Capitan* release), thus you can't install *cvm* in */usr/bin* for instance.
-
-### Binary package
-
-Otherwise, you can download latest binary archive at <https://github.com/c4s4/cvm/releases>. Unzip the archive, put the binary of your platform somewhere in your *PATH* and rename it *cvm*.
+Rust [CVM](https://en.wikipedia.org/wiki/Count-distinct_problem) implementation library.
 
 ## Usage
 
-Describe here how to use Cvm.
+To call CVM library from your Rust code, add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+cvm = "0.1"
+```
+
+Then you can call CVM functions in your code like this:
+
+```rust
+use cvm::CVM;
+
+fn main() {
+    let mut cvm = CVM::new(0.01);
+    cvm.add("hello");
+    cvm.add("world");
+    cvm.add("hello");
+    println!("Count: {}", cvm.count());
+}
+```
 
 *Enjoy!*

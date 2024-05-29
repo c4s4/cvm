@@ -1,6 +1,8 @@
-use std::collections::HashSet;
 use rand::Rng;
+use std::collections::HashSet;
+use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct CVM {
     size: usize,
     p: f64,
@@ -18,7 +20,7 @@ impl CVM {
 
     pub fn add(&mut self, word: String) {
         self.data.remove(&word);
-        if keep(self.p) {
+        if rand::thread_rng().gen_range(0.0..1.0) < self.p {
             self.data.insert(word);
         };
         if self.data.len() >= self.size {
@@ -34,20 +36,13 @@ impl CVM {
         let mut new_data = HashSet::new();
         self.p /= 2.0;
         for value in &self.data {
-            if keep(0.5) {
+            if rand::thread_rng().gen_range(0.0..1.0) < 0.5 {
                 new_data.insert(value.to_string());
             }
         }
         self.data = new_data;
-    }    
+    }
 }
-
-fn keep(p: f64) -> bool {
-    let mut rng = rand::thread_rng();
-    return rng.gen_range(0.0..1.0) < p;
-}
-
-//////////////////////////////////// TESTS /////////////////////////////////////
 
 #[cfg(test)]
 mod tests {
@@ -55,6 +50,10 @@ mod tests {
 
     #[test]
     fn test() {
-        assert_eq!(42, 42);
+        let mut cvm = CVM::new(100);
+        cvm.add("hello".to_string());
+        cvm.add("world".to_string());
+        cvm.add("hello".to_string());
+        assert!(cvm.count() == 2);
     }
 }
